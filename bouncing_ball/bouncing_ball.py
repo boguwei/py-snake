@@ -31,7 +31,7 @@ while 1:
     if ballRect.top < 0 or ballRect.bottom > height:
         speed[1] = -speed[1]
 
-#   screen.fill(black)
-    screen.fill(white)
+    screen.fill(black)
+#   screen.fill(white)
     screen.blit(ball, ballRect)
     pygame.display.flip()
