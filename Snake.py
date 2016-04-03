@@ -3,7 +3,7 @@
 # author:   boguwei@gmail.com
 # date:     4/2/16
 
-import Segment
+from Segment import Segment
 
 class Snake:
 
@@ -12,3 +12,16 @@ class Snake:
         self.moveY = 0
         self.moveZ = 0
         self.theSnake = [Segment(x, y, z)]
+
+    def moveSnake(self):
+        for i in reversed(range(1, len(self.theSnake))):
+            self.theSnake[i].copySegment(self.theSnake[i-1]
+        self.theSnake[0].moveSegment(self.moveX, self.moveY, self.moveZ)
+
+    def growSnake(self):
+        lastSegment = self.theSnake[len(self.theSnake) - 1]
+        lastSegment.moveSegment(
+                self.moveX * -1,
+                self.moveY * -1,
+                self.moveZ * -1)
+        self.theSnake.append(lastSegment)

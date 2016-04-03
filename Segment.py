@@ -10,10 +10,15 @@ class Segment:
         self.y = y
         self.z = z
 
-    def copyState(self, otherSegment):
+    def copySegment(self, otherSegment):
         self.x = otherSegment.x
         self.y = otherSegment.y
         self.z = otherSegment.z
+
+    def moveSegment(self, dx, dy, dz):
+        self.x += dx
+        self.y += dy
+        self.z += dz
 
     def printSegment(self):
         print('[ ',str(self.x),' ',str(self.y),' ',str(self.z),' ]')
