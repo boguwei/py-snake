@@ -19,10 +19,11 @@ class Snake:
         self.theSnake[0].moveSegment(self.moveX, self.moveY, self.moveZ)
 
     def growSnake(self):
+        lenSnake = len(self.theSnake)
         lastSegment = Segment(
-                self.theSnake[len(self.theSnake) - 1].x,
-                self.theSnake[len(self.theSnake) - 1].y,
-                self.theSnake[len(self.theSnake) - 1].z)
+                self.theSnake[lenSnake - 1].x,
+                self.theSnake[lenSnake - 1].y,
+                self.theSnake[lenSnake - 1].z)
         lastSegment.moveSegment(
                 self.moveX * -1,
                 self.moveY * -1,
