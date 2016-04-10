@@ -23,6 +23,7 @@ screen = pygame.display.set_mode(screenSize)
 
 # make snake alive
 snakey = Snake(width/2, height/2, 0)
+segmentRectQueue = deque()
 
 # make snake recognize human overlord
 eventManager = KeyboardManager(snakey)
@@ -43,7 +44,7 @@ while snakey.isAlive:
         
     # render to screen
     if snakey.isAlive:
-        segmentRectQueue = deque()
+        segmentRectQueue.clear()
         screen.fill(WHITE)
         for segment in snakey.theSnake:
             segmentRect = pygame.Rect(
@@ -56,16 +57,15 @@ while snakey.isAlive:
             segmentSurface.fill(BLACK)
             screen.blit(segmentSurface, segmentRect)
         pygame.display.flip()
-        # don't hit yourself
+
+        # don't hit anything
         snakeHead =  segmentRectQueue.popleft()
         if snakeHead.collidelist(segmentRectQueue) >= 0:
             snakey.isAlive = False
-
-    # don't hit the walls
-    if snakey.isAlive:
-        head = snakey.theSnake[0]
-        if head.x < 0 or head.x > width or head.y < 0 or head.y > height:
-            snakey.isAlive = False
+        else:
+            head = snakey.theSnake[0]
+            if head.x < 0 or head.x > width or head.y < 0 or head.y > height:
+                snakey.isAlive = False
 
     frameEnd = time.perf_counter()
     frame = (frameEnd - frameStart) 
