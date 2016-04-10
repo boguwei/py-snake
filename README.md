@@ -15,6 +15,7 @@ This is a program to learn Pygame / Python. It's a work in progress...
   | DOWN Arrow  | move down  |
   | LEFT Arrow  | move left  |
   | RIGHT Arrow | move right |
+  | ESC         | quit game  |
 
 You can test if Pygame is installed correctly by running `./bouncing_ball/runTest.bash` from the game dir.
 
