@@ -40,23 +40,24 @@ while snakey.isAlive:
     # move, you slippery bastard, move
     snakey.moveSnake()
         
-    # render to screen
-    screen.fill(WHITE)
-    for segment in snakey.theSnake:
-        segmentRect = pygame.Rect(
-                segment.x - segment.size / 2,
-                segment.y + segment.size / 2,
-                segment.size,
-                segment.size)
-        segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
-        segmentSurface.fill(BLACK)
-        screen.blit(segmentSurface, segmentRect)
-    pygame.display.flip()
-
     # don't hit anything
     head = snakey.theSnake[0]
     if head.x < 0 or head.x > width or head.y < 0 or head.y > height:
         snakey.isAlive = False
+
+    # render to screen
+    if snakey.isAlive:
+        screen.fill(WHITE)
+        for segment in snakey.theSnake:
+            segmentRect = pygame.Rect(
+                    segment.x - segment.size / 2,
+                    segment.y + segment.size / 2,
+                    segment.size,
+                    segment.size)
+            segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
+            segmentSurface.fill(BLACK)
+            screen.blit(segmentSurface, segmentRect)
+        pygame.display.flip()
 
     frameEnd = time.perf_counter()
     frame = (frameEnd - frameStart) 

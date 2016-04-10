@@ -19,28 +19,22 @@ class KeyboardManager:
         print('\nESC key pressed.')
         self.snake.isAlive = False
 
-    def keyDown115(self):
-        print('\nS key pressed.')
+    def keyDown97(self):
+        print('\na key pressed.')
+        self.snake.moveX = -1 * self.segmentSize
+        self.snake.moveY = 0
 
-    def keyDown119(self):
-        print('\nW key pressed.')
-
-    def keyDown273(self):
-        print('\nUP key pressed.')
-        self.snake.moveX = 0
-        self.snake.moveY = -1 * self.segmentSize
-        
-    def keyDown274(self):
-        print('\nDOWN key pressed.')
-        self.snake.moveX = 0
-        self.snake.moveY = 1 * self.segmentSize
-
-    def keyDown275(self):
-        print('\nRIGHT key pressed.')
+    def keyDown100(self):
+        print('\nd key pressed.')
         self.snake.moveX = 1 * self.segmentSize
         self.snake.moveY = 0
 
-    def keyDown276(self):
-        print('\nLEFT key pressed.')
-        self.snake.moveX = -1 * self.segmentSize
-        self.snake.moveY = 0
+    def keyDown115(self):
+        print('\ns key pressed.')
+        self.snake.moveX = 0
+        self.snake.moveY = 1 * self.segmentSize
+
+    def keyDown119(self):
+        print('\nw key pressed.')
+        self.snake.moveX = 0
+        self.snake.moveY = -1 * self.segmentSize
