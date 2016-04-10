@@ -6,6 +6,7 @@
 import sys
 import pygame
 import time
+from collections import deque
 from Snake import Snake
 from KeyboardManager import KeyboardManager
 
@@ -40,13 +41,9 @@ while snakey.isAlive:
     # move, you slippery bastard, move
     snakey.moveSnake()
         
-    # don't hit anything
-    head = snakey.theSnake[0]
-    if head.x < 0 or head.x > width or head.y < 0 or head.y > height:
-        snakey.isAlive = False
-
     # render to screen
     if snakey.isAlive:
+        segmentRectQueue = deque()
         screen.fill(WHITE)
         for segment in snakey.theSnake:
             segmentRect = pygame.Rect(
@@ -54,10 +51,21 @@ while snakey.isAlive:
                     segment.y + segment.size / 2,
                     segment.size,
                     segment.size)
+            segmentRectQueue.append(segmentRect)
             segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
             segmentSurface.fill(BLACK)
             screen.blit(segmentSurface, segmentRect)
         pygame.display.flip()
+        # don't hit yourself
+        snakeHead =  segmentRectQueue.popleft()
+        if snakeHead.collidelist(segmentRectQueue) >= 0:
+            snakey.isAlive = False
+
+    # don't hit the walls
+    if snakey.isAlive:
+        head = snakey.theSnake[0]
+        if head.x < 0 or head.x > width or head.y < 0 or head.y > height:
+            snakey.isAlive = False
 
     frameEnd = time.perf_counter()
     frame = (frameEnd - frameStart) 

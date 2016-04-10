@@ -29,6 +29,10 @@ class KeyboardManager:
         self.snake.moveX = 1 * self.segmentSize
         self.snake.moveY = 0
 
+    def keyDown103(self):
+        print('\ng key pressed.')
+        self.snake.growSnake()
+
     def keyDown115(self):
         print('\ns key pressed.')
         self.snake.moveX = 0
