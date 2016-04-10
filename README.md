@@ -8,12 +8,13 @@ This is a program to learn Pygame / Python. It's a work in progress...
 ### How to Play
 1. Launch the game by typing `./runGame.bash` from the game dir. 
 2. Navigate the Snake using the keyboard. 
-| Key         | Action     |
-| ----------- | ---------- |
-| UP ARROW    | move up    |
-| DOWN ARROW  | move down  |
-| LEFT ARROW  | move left  |
-| RIGHT ARROW | move right |
+
+  | Key         | Action     |
+  | ----------- | ---------- |
+  | UP Arrow    | move up    |
+  | DOWN Arrow  | move down  |
+  | LEFT Arrow  | move left  |
+  | RIGHT Arrow | move right |
 
 You can test if Pygame is installed correctly by running `./bouncing_ball/runTest.bash` from the game dir.
 
