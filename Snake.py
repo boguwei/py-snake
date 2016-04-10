@@ -12,6 +12,7 @@ class Snake:
         self.moveY = 0
         self.moveZ = 0
         self.theSnake = [Segment(x, y, z)]
+        self.isAlive = True
 
     def moveSnake(self):
         for i in reversed(range(1, len(self.theSnake))):

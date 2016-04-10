@@ -9,6 +9,7 @@ class Segment:
         self.x = x
         self.y = y
         self.z = z
+        self.size = 10
 
     def copySegment(self, otherSegment):
         self.x = otherSegment.x
