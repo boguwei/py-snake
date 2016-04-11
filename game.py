@@ -55,6 +55,14 @@ while snakey.isAlive:
     if snakey.isAlive:
         segmentRectQueue.clear()
         screen.fill(WHITE)
+        targetRect = pygame.Rect(
+                target.x - target.size / 2,
+                target.y + target.size / 2,
+                target.size,
+                target.size)
+        targetSurface = pygame.Surface((targetRect.width, targetRect.height))
+        targetSurface.fill(RED)
+        screen.blit(targetSurface, targetRect)
         for segment in snakey.theSnake:
             segmentRect = pygame.Rect(
                     segment.x - segment.size / 2,
@@ -65,20 +73,16 @@ while snakey.isAlive:
             segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
             segmentSurface.fill(BLACK)
             screen.blit(segmentSurface, segmentRect)
-        targetRect = pygame.Rect(
-                target.x - target.size / 2,
-                target.y + target.size / 2,
-                target.size,
-                target.size)
-        targetSurface = pygame.Surface((targetRect.width, targetRect.height))
-        targetSurface.fill(RED)
-        screen.blit(targetSurface, targetRect)
         pygame.display.flip()
 
     # don't hit anything except the target
     if len(segmentRectQueue) > 0:
         head =  segmentRectQueue.popleft()
-        if head.collidelist(segmentRectQueue) >= 0:
+        if head.colliderect(targetRect):
+            target.x = random.randrange(0, width, snakey.theSnake[0].size)
+            target.y = random.randrange(0, height, snakey.theSnake[0].size)
+            snakey.growSnake()
+        elif head.collidelist(segmentRectQueue) >= 0:
             snakey.isAlive = False
         else:
             head = snakey.theSnake[0]
