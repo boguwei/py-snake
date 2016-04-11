@@ -12,8 +12,8 @@ This is a program to learn Pygame / Python. It's a work in progress...
   | Key         | Action                |
   | ----------- | --------------------- |
   | w           | move up               |
-  | a           | move down             |
-  | s           | move left             |
+  | a           | move left             |
+  | s           | move down             |
   | d           | move right            |
   | g           | grow snake (cheating) |
   | ESC         | quit game             |
