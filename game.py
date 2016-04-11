@@ -23,11 +23,11 @@ pygame.init()
 gameDifficulty = 2      # the higher the difficulty, the faster the snake moves
 
 # configure pygame window parameters
-WHITE = 255, 255, 255
-BLACK = 0, 0, 0
-RED = 255, 0, 0
-width = 400
-height = 300
+WHITE   = 255, 255, 255
+BLACK   = 0  , 0  , 0
+RED     = 255, 0  , 0
+width   = 400
+height  = 300
 screenSize = width, height
 screen = pygame.display.set_mode(screenSize)
 
