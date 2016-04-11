@@ -12,15 +12,22 @@ from Snake import Snake
 from Segment import Segment
 from KeyboardManager import KeyboardManager
 
+def makeRect(segment):
+    return pygame.Rect(
+            segment.x - segment.size / 2,
+            segment.y + segment.size / 2,
+            segment.size,
+            segment.size)
+
 pygame.init()
-gameDifficulty = 1      # the higher the difficulty, the faster the snake moves
+gameDifficulty = 2      # the higher the difficulty, the faster the snake moves
 
 # configure pygame window parameters
 WHITE = 255, 255, 255
 BLACK = 0, 0, 0
 RED = 255, 0, 0
-width = 800
-height = 600
+width = 400
+height = 300
 screenSize = width, height
 screen = pygame.display.set_mode(screenSize)
 
@@ -55,20 +62,12 @@ while snakey.isAlive:
     if snakey.isAlive:
         segmentRectQueue.clear()
         screen.fill(WHITE)
-        targetRect = pygame.Rect(
-                target.x - target.size / 2,
-                target.y + target.size / 2,
-                target.size,
-                target.size)
+        targetRect = makeRect(target)
         targetSurface = pygame.Surface((targetRect.width, targetRect.height))
         targetSurface.fill(RED)
         screen.blit(targetSurface, targetRect)
         for segment in snakey.theSnake:
-            segmentRect = pygame.Rect(
-                    segment.x - segment.size / 2,
-                    segment.y + segment.size / 2,
-                    segment.size,
-                    segment.size)
+            segmentRect = makeRect(segment)
             segmentRectQueue.append(segmentRect)
             segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
             segmentSurface.fill(BLACK)
