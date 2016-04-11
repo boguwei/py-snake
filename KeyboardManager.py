@@ -33,6 +33,16 @@ class KeyboardManager:
         print('\ng key pressed.')
         self.snake.growSnake()
 
+    def keyDown106(self):
+        print('\nj key pressed.')
+        if self.snake.moveZ == 0:
+            self.snake.moveZ = -1
+
+    def keyDown107(self):
+        print('\nk key pressed.')
+        if self.snake.moveZ == 0:
+            self.snake.moveZ = 1
+
     def keyDown115(self):
         print('\ns key pressed.')
         self.snake.moveX = 0

@@ -7,6 +7,7 @@ import sys
 import pygame
 import time
 import random
+from colors import colors
 from collections import deque
 from Snake import Snake
 from Segment import Segment
@@ -20,12 +21,9 @@ def makeRect(segment):
             segment.size)
 
 pygame.init()
-gameDifficulty = 2      # the higher the difficulty, the faster the snake moves
+gameDifficulty = 2   # the higher the difficulty, the faster the snake moves
 
 # configure pygame window parameters
-WHITE   = 255, 255, 255
-BLACK   = 0  , 0  , 0
-RED     = 255, 0  , 0
 width   = 400
 height  = 300
 screenSize = width, height
@@ -39,7 +37,7 @@ segmentRectQueue = deque()
 target = Segment(
         random.randrange(0, width, snakey.theSnake[0].size),
         random.randrange(0, height, snakey.theSnake[0].size),
-        0)
+        random.randrange(0, len(colors)))
 
 # make snake recognize human overlord
 eventManager = KeyboardManager(snakey)
@@ -61,28 +59,34 @@ while snakey.isAlive:
     # render to screen
     if snakey.isAlive:
         segmentRectQueue.clear()
-        screen.fill(WHITE)
+        screen.fill((255, 255, 255))
+        
         targetRect = makeRect(target)
         targetSurface = pygame.Surface((targetRect.width, targetRect.height))
-        targetSurface.fill(RED)
+        targetSurface.fill(colors[target.z])
         screen.blit(targetSurface, targetRect)
+
         for segment in snakey.theSnake:
             segmentRect = makeRect(segment)
             segmentRectQueue.append(segmentRect)
             segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
-            segmentSurface.fill(BLACK)
+            segmentSurface.fill(colors[segment.z])
             screen.blit(segmentSurface, segmentRect)
+
         pygame.display.flip()
 
     # don't hit anything except the target
     if len(segmentRectQueue) > 0:
         head =  segmentRectQueue.popleft()
-        if head.colliderect(targetRect):
+        bodyInd = head.collidelist(segmentRectQueue)
+        if head.colliderect(targetRect) and snakey.theSnake[0].z == target.z:
             target.x = random.randrange(0, width, snakey.theSnake[0].size)
             target.y = random.randrange(0, height, snakey.theSnake[0].size)
+            target.z = random.randrange(0, len(colors))
             snakey.growSnake()
-        elif head.collidelist(segmentRectQueue) >= 0:
-            snakey.isAlive = False
+        elif bodyInd >= 0:
+            if snakey.theSnake[0].z == snakey.theSnake[bodyInd + 1].z:
+                snakey.isAlive = False
         else:
             head = snakey.theSnake[0]
             if head.x < 0 or head.x > width or head.y < 0 or head.y > height:

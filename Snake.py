@@ -19,6 +19,7 @@ class Snake:
         for i in reversed(range(1, self.len)):
             self.theSnake[i].copySegment(self.theSnake[i-1])
         self.theSnake[0].moveSegment(self.moveX, self.moveY, self.moveZ)
+        self.moveZ = 0
 
     def growSnake(self):
         lastSegment = Segment(
