@@ -20,7 +20,7 @@ This is a program to learn Pygame / Python. It's a work in progress...
   | g           | grow snake (cheating) |
   | ESC         | quit game             |
 
-The game has 7 height levels mapped to 8 colors. The height of the snake's head 
+The game has 7 height levels mapped to 7 colors. The height of the snake's head 
 must match the height of the node to be eaten in order for the snake to eat it. 
 In other words, the snake head must match the color of the node to be eaten, in
 addition to actually being at the spot on the game screen where the node is. 
