@@ -21,13 +21,15 @@ class KeyboardManager:
 
     def keyDown97(self):
         print('\na key pressed.')
-        self.snake.moveX = -1 * self.segmentSize
-        self.snake.moveY = 0
+        if self.snake.moveX == 0:
+            self.snake.moveX = -1 * self.segmentSize
+            self.snake.moveY = 0
 
     def keyDown100(self):
         print('\nd key pressed.')
-        self.snake.moveX = 1 * self.segmentSize
-        self.snake.moveY = 0
+        if self.snake.moveX == 0:
+            self.snake.moveX = 1 * self.segmentSize
+            self.snake.moveY = 0
 
     def keyDown103(self):
         print('\ng key pressed.')
@@ -45,10 +47,12 @@ class KeyboardManager:
 
     def keyDown115(self):
         print('\ns key pressed.')
-        self.snake.moveX = 0
-        self.snake.moveY = 1 * self.segmentSize
+        if self.snake.moveY == 0:
+            self.snake.moveX = 0
+            self.snake.moveY = 1 * self.segmentSize
 
     def keyDown119(self):
         print('\nw key pressed.')
-        self.snake.moveX = 0
-        self.snake.moveY = -1 * self.segmentSize
+        if self.snake.moveY == 0:
+            self.snake.moveX = 0
+            self.snake.moveY = -1 * self.segmentSize

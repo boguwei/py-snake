@@ -7,7 +7,7 @@ This is a program to learn Pygame / Python. It's a work in progress...
 
 ### How to Play
 1. Launch the game by typing `./runGame.bash` from the game dir. 
-2. Navigate the Snake using the keyboard. 
+2. Navigate the Snake using the keyboard. Note: the snake cannot turn 180 degrees in one move!
 
   | Key         | Action                |
   | ----------- | --------------------- |

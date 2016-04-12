@@ -7,8 +7,8 @@ import sys
 import pygame
 import time
 import random
-from colors import colors
 from collections import deque
+from colors import colors
 from Snake import Snake
 from Segment import Segment
 from KeyboardManager import KeyboardManager
@@ -21,22 +21,25 @@ def makeRect(segment):
             segment.size)
 
 pygame.init()
-gameDifficulty = 2   # the higher the difficulty, the faster the snake moves
+gameDifficulty = 3   # the higher the difficulty, the faster the snake moves
+random.seed()
 
 # configure pygame window parameters
-width   = 400
-height  = 300
+width   = 600
+height  = 400
 screenSize = width, height
 screen = pygame.display.set_mode(screenSize)
+pygame.display.set_caption('pySnake by bogu')
 
 # make snake alive
 snakey = Snake(width/2, height/2, 0)
 segmentRectQueue = deque()
+segmentSize = snakey.theSnake[0].size
 
 # make target alive
 target = Segment(
-        random.randrange(0, width, snakey.theSnake[0].size),
-        random.randrange(0, height, snakey.theSnake[0].size),
+        random.randrange(segmentSize, width - segmentSize, segmentSize),
+        random.randrange(segmentSize, height - segmentSize, segmentSize),
         random.randrange(0, len(colors)))
 
 # make snake recognize human overlord
@@ -80,8 +83,8 @@ while snakey.isAlive:
         head =  segmentRectQueue.popleft()
         bodyInd = head.collidelist(segmentRectQueue)
         if head.colliderect(targetRect) and snakey.theSnake[0].z == target.z:
-            target.x = random.randrange(0, width, snakey.theSnake[0].size)
-            target.y = random.randrange(0, height, snakey.theSnake[0].size)
+            target.x = random.randrange(segmentSize, width - segmentSize, segmentSize)
+            target.y = random.randrange(segmentSize, height - segmentSize, segmentSize)
             target.z = random.randrange(0, len(colors))
             snakey.growSnake()
         elif bodyInd >= 0:
