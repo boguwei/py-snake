@@ -3,9 +3,11 @@
 # author: boguwei@gmail.com
 # date: 4/9/16
 
-import sys
 import pygame
+import sys
 import time
+import copy
+import itertools
 import random
 from collections import deque
 from colors import colors
@@ -20,27 +22,35 @@ def makeRect(segment):
             segment.size,
             segment.size)
 
-pygame.init()
-gameDifficulty = 3   # the higher the difficulty, the faster the snake moves
+width          = 600
+height         = 400
+gameDifficulty = 4 # the higher the difficulty, the faster the snake moves
 random.seed()
-
-# configure pygame window parameters
-width   = 600
-height  = 400
-screenSize = width, height
-screen = pygame.display.set_mode(screenSize)
-pygame.display.set_caption('pySnake by bogu')
 
 # make snake alive
 snakey = Snake(width/2, height/2, 0)
 segmentRectQueue = deque()
-segmentSize = snakey.theSnake[0].size
+segSize = snakey.theSnake[0].size
+
+# configure pygame window parameters
+pygame.init()
+screenSize = width, height
+screen = pygame.display.set_mode(screenSize, pygame.DOUBLEBUF)
+screen.fill((255, 255, 255))
+backgroundSurface = pygame.Surface((segSize, segSize))
+backgroundSurface.fill((255, 255, 255))
+pygame.display.set_caption('pySnake by bogu')
 
 # make target alive
 target = Segment(
-        random.randrange(segmentSize, width - segmentSize, segmentSize),
-        random.randrange(segmentSize, height - segmentSize, segmentSize),
+        random.randrange(segSize, width - segSize, segSize),
+        random.randrange(segSize, height - segSize, segSize),
         random.randrange(0, len(colors)))
+targetRect = makeRect(target)
+targetSurface = pygame.Surface((targetRect.width, targetRect.height))
+targetSurface.fill(colors[target.z])
+screen.blit(targetSurface, targetRect)
+pygame.display.update(targetRect)
 
 # make snake recognize human overlord
 eventManager = KeyboardManager(snakey)
@@ -56,40 +66,47 @@ while snakey.isAlive:
         if event.type == pygame.KEYDOWN: 
             eventManager.eventSwitcher(event)
 
+    # wipe the screen
+    oldSegmentRectQueue = deque(segmentRectQueue)
+    for segment in oldSegmentRectQueue:
+        screen.blit(backgroundSurface, segment)
+
     # move, you slippery bastard, move
     snakey.moveSnake()
         
-    # render to screen
-    if snakey.isAlive:
-        segmentRectQueue.clear()
-        screen.fill((255, 255, 255))
-        
-        targetRect = makeRect(target)
-        targetSurface = pygame.Surface((targetRect.width, targetRect.height))
-        targetSurface.fill(colors[target.z])
-        screen.blit(targetSurface, targetRect)
+    # draw the screen
+    segmentRectQueue.clear()
+    for segment in snakey.theSnake:
+        segmentRect = makeRect(segment)
+        segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
+        segmentSurface.fill(colors[segment.z])
+        screen.blit(segmentSurface, segmentRect)
+        segmentRectQueue.append(segmentRect)
+    pygame.display.update(oldSegmentRectQueue)
+    pygame.display.update(segmentRectQueue)
 
-        for segment in snakey.theSnake:
-            segmentRect = makeRect(segment)
-            segmentRectQueue.append(segmentRect)
-            segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
-            segmentSurface.fill(colors[segment.z])
-            screen.blit(segmentSurface, segmentRect)
-
-        pygame.display.flip()
-
-    # don't hit anything except the target
+    # check collisions
     if len(segmentRectQueue) > 0:
-        head =  segmentRectQueue.popleft()
-        bodyInd = head.collidelist(segmentRectQueue)
+        head =  segmentRectQueue[0]
+        bodyList = deque(itertools.islice(segmentRectQueue,1,len(segmentRectQueue)))
+        bodyInd = head.collidelist(bodyList)
+        # hit a target
         if head.colliderect(targetRect) and snakey.theSnake[0].z == target.z:
-            target.x = random.randrange(segmentSize, width - segmentSize, segmentSize)
-            target.y = random.randrange(segmentSize, height - segmentSize, segmentSize)
-            target.z = random.randrange(0, len(colors))
             snakey.growSnake()
+            #draw new target
+            target.x = random.randrange(segSize, width - segSize, segSize)
+            target.y = random.randrange(segSize, height - segSize, segSize)
+            target.z = random.randrange(0, len(colors))
+            targetRect = makeRect(target)
+            targetSurface = pygame.Surface((targetRect.width, targetRect.height))
+            targetSurface.fill(colors[target.z])
+            screen.blit(targetSurface, targetRect)
+            pygame.display.update(targetRect)
+        # hit yourself
         elif bodyInd >= 0:
             if snakey.theSnake[0].z == snakey.theSnake[bodyInd + 1].z:
                 snakey.isAlive = False
+        # hit the wall
         else:
             head = snakey.theSnake[0]
             if head.x < 0 or head.x > width or head.y < 0 or head.y > height:
