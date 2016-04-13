@@ -67,7 +67,7 @@ while snakey.isAlive:
             eventManager.eventSwitcher(event)
 
     # wipe the screen
-    oldSegmentRectQueue = deque(segmentRectQueue)
+    oldSegmentRectQueue = copy.copy(segmentRectQueue)
     for segment in oldSegmentRectQueue:
         screen.blit(backgroundSurface, segment)
 
@@ -82,8 +82,13 @@ while snakey.isAlive:
         segmentSurface.fill(colors[segment.z])
         screen.blit(segmentSurface, segmentRect)
         segmentRectQueue.append(segmentRect)
+    
+    targetSurface.fill(colors[target.z])
+    screen.blit(targetSurface, targetRect)
+    
     pygame.display.update(oldSegmentRectQueue)
     pygame.display.update(segmentRectQueue)
+    pygame.display.update(targetRect)
 
     # check collisions
     if len(segmentRectQueue) > 0:
@@ -98,7 +103,6 @@ while snakey.isAlive:
             target.y = random.randrange(segSize, height - segSize, segSize)
             target.z = random.randrange(0, len(colors))
             targetRect = makeRect(target)
-            targetSurface = pygame.Surface((targetRect.width, targetRect.height))
             targetSurface.fill(colors[target.z])
             screen.blit(targetSurface, targetRect)
             pygame.display.update(targetRect)
