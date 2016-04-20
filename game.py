@@ -24,7 +24,7 @@ def makeRect(segment):
 
 width          = 600
 height         = 400
-gameDifficulty = 4 # the higher the difficulty, the faster the snake moves
+gameDifficulty = 6 # the higher the difficulty, the faster the snake moves
 random.seed()
 
 # make snake alive
@@ -32,13 +32,13 @@ snakey = Snake(width/2, height/2, 0)
 segmentRectQueue = deque()
 segSize = snakey.theSnake[0].size
 
-# configure pygame window parameters
+# configure pygame window 
 pygame.init()
 screenSize = width, height
 screen = pygame.display.set_mode(screenSize, pygame.DOUBLEBUF)
 screen.fill((255, 255, 255))
-backgroundSurface = pygame.Surface((segSize, segSize))
-backgroundSurface.fill((255, 255, 255))
+backgroundBlit = pygame.Surface((segSize, segSize))
+backgroundBlit.fill((255, 255, 255))
 pygame.display.set_caption('pySnake by bogu')
 
 # make target alive
@@ -69,7 +69,7 @@ while snakey.isAlive:
     # wipe the screen
     oldSegmentRectQueue = copy.copy(segmentRectQueue)
     for segment in oldSegmentRectQueue:
-        screen.blit(backgroundSurface, segment)
+        screen.blit(backgroundBlit, segment)
 
     # move, you slippery bastard, move
     snakey.moveSnake()
