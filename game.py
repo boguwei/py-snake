@@ -15,13 +15,14 @@ from Snake import Snake
 from Segment import Segment
 from KeyboardManager import KeyboardManager
 
-def makeRect(segment):
+def makeRectSegment(segment):
     return pygame.Rect(
             segment.x - segment.size / 2,
             segment.y + segment.size / 2,
             segment.size,
             segment.size)
 
+# game options
 width          = 600
 height         = 400
 gameDifficulty = 6 # the higher the difficulty, the faster the snake moves
@@ -41,12 +42,13 @@ backgroundBlit = pygame.Surface((segSize, segSize))
 backgroundBlit.fill((255, 255, 255))
 pygame.display.set_caption('pySnake by bogu')
 
+
 # make target alive
 target = Segment(
         random.randrange(segSize, width - segSize, segSize),
         random.randrange(segSize, height - segSize, segSize),
         random.randrange(0, len(colors)))
-targetRect = makeRect(target)
+targetRect = makeRectSegment(target)
 targetSurface = pygame.Surface((targetRect.width, targetRect.height))
 targetSurface.fill(colors[target.z])
 screen.blit(targetSurface, targetRect)
@@ -77,7 +79,7 @@ while snakey.isAlive:
     # draw the screen
     segmentRectQueue.clear()
     for segment in snakey.theSnake:
-        segmentRect = makeRect(segment)
+        segmentRect = makeRectSegment(segment)
         segmentSurface = pygame.Surface((segmentRect.width, segmentRect.height))
         segmentSurface.fill(colors[segment.z])
         screen.blit(segmentSurface, segmentRect)
@@ -102,7 +104,7 @@ while snakey.isAlive:
             target.x = random.randrange(segSize, width - segSize, segSize)
             target.y = random.randrange(segSize, height - segSize, segSize)
             target.z = random.randrange(0, len(colors))
-            targetRect = makeRect(target)
+            targetRect = makeRectSegment(target)
             targetSurface.fill(colors[target.z])
             screen.blit(targetSurface, targetRect)
             pygame.display.update(targetRect)
