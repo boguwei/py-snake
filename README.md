@@ -1,7 +1,7 @@
 # Snake
 #### Just a Pygame Thing
 
-This is a program to learn Pygame / Python. It's a work in progress... 
+This is a program to learn Pygame / Python. It's a work in progress.... 
 
 ---
 
